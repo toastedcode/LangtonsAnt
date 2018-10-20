@@ -1,0 +1,68 @@
+import com.toast.game.engine.*;
+
+// **************************************************************************
+//                            Public Operations
+// **************************************************************************
+
+public void handleMessage()
+{
+   switch (message.getMessageId())
+   {
+      /*
+      case "msgMOUSE_PRESSED":
+      {
+         print("Here");
+         actor.setState("lastMousePos",  
+            new java.awt.Point(((MouseEvent)(message.getPayload("mouseEvent"))).getX(),
+                               ((MouseEvent)(message.getPayload("mouseEvent"))).getY()));
+      }
+      
+      case "msgMOUSE_RELEASED":
+      {
+         actor.setState("lastMousePos", null);
+      }
+      
+      case "msgMOUSE_DRAGGED":
+      {
+         java.awt.Point lastMousePos = (java.awt.Point)actor.getState("lastMousePos");
+          
+         if (lastMousePos != null)
+         {
+            java.awt.Point mousePos = 
+               new java.awt.Point(((MouseEvent)(message.getPayload("mouseEvent"))).getX(),
+                                  ((MouseEvent)(message.getPayload("mouseEvent"))).getY());
+            
+            java.awt.Point delta = new java.awt.Point((mousePos.x - lastMousePos.x), (mousePos.y - lastMousePos.y));                                 
+   
+            actor.moveBy(delta.x, delta.y);          
+            
+            actor.setState("lastMousePos", mousePos);
+         }
+         else
+         {
+            print("Null!");
+         }
+         break;
+      }
+      */
+   
+      case "msgMOUSE_WHEEL_MOVED":
+      {
+         int delta = ((MouseEvent)(message.getPayload("mouseEvent"))).getWheelRotation();
+         
+         Dimension dimension = actor.getDimension();
+         double aspectRatio = ((double)dimension.height/(double)dimension.width);
+         
+         dimension.width = (dimension.width + (delta * 10));
+         dimension.height = (dimension.width + (int)(delta * 10 * aspectRatio));
+         
+         actor.setDimension(dimension);
+         break;
+      }
+
+      default:
+      {
+         break;
+      }
+   }
+}
