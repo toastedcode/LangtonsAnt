@@ -51,7 +51,7 @@ public class LangtonsAnt
       frame.getContentPane().add(Game.getGamePanel(), BorderLayout.CENTER);
       frame.setVisible(true);
       
-      Message message = new Message("nextStep", "game", "ant");
+      Message message = new Message("msgNEXT_STEP", "game", null);
       Game.startTimer("antTimer",  50,  true,  message);
       
       Game.play();

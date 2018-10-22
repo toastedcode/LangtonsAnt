@@ -1,50 +1,52 @@
 import com.toast.game.engine.*;
+import com.toast.game.engine.actor.Actor;
+import com.toast.game.langton.Ant;
+import java.awt.Point;
 
 // **************************************************************************
 //                            Public Operations
 // **************************************************************************
 
+Point lastMousePos = null;
+
+int iteration = 0;
+
 public void handleMessage()
 {
    switch (message.getMessageId())
    {
-      /*
       case "msgMOUSE_PRESSED":
       {
-         print("Here");
-         actor.setState("lastMousePos",  
-            new java.awt.Point(((MouseEvent)(message.getPayload("mouseEvent"))).getX(),
-                               ((MouseEvent)(message.getPayload("mouseEvent"))).getY()));
+         lastMousePos = getMousePos((MouseEvent)message.getPayload("mouseEvent"));
       }
       
       case "msgMOUSE_RELEASED":
       {
-         actor.setState("lastMousePos", null);
+      }
+      
+      case "msgMOUSE_CLICKED":
+      {
+         spawnAnt(new Point(10, 10));
       }
       
       case "msgMOUSE_DRAGGED":
       {
-         java.awt.Point lastMousePos = (java.awt.Point)actor.getState("lastMousePos");
-          
          if (lastMousePos != null)
          {
-            java.awt.Point mousePos = 
-               new java.awt.Point(((MouseEvent)(message.getPayload("mouseEvent"))).getX(),
-                                  ((MouseEvent)(message.getPayload("mouseEvent"))).getY());
+            Point mousePos = getMousePos((MouseEvent)message.getPayload("mouseEvent"));
             
-            java.awt.Point delta = new java.awt.Point((mousePos.x - lastMousePos.x), (mousePos.y - lastMousePos.y));                                 
+            Point delta = new Point((mousePos.x - lastMousePos.x), (mousePos.y - lastMousePos.y));                                 
    
-            actor.moveBy(delta.x, delta.y);          
+            actor.moveBy((delta.x * -1), (delta.y * -1));          
             
-            actor.setState("lastMousePos", mousePos);
+            lastMousePos = mousePos;
          }
          else
          {
-            print("Null!");
+            lastMousePos = getMousePos((MouseEvent)message.getPayload("mouseEvent"));
          }
          break;
       }
-      */
    
       case "msgMOUSE_WHEEL_MOVED":
       {
@@ -53,8 +55,8 @@ public void handleMessage()
          Dimension dimension = actor.getDimension();
          double aspectRatio = ((double)dimension.height/(double)dimension.width);
          
-         dimension.width = (dimension.width + (delta * 10));
-         dimension.height = (dimension.width + (int)(delta * 10 * aspectRatio));
+         dimension.width = (dimension.width + (delta * -10));
+         dimension.height = (dimension.width + (int)(delta * -10 * aspectRatio));
          
          actor.setDimension(dimension);
          break;
@@ -65,4 +67,22 @@ public void handleMessage()
          break;
       }
    }
+}
+
+Point getMousePos(MouseEvent event)
+{
+   return (new Point(event.getX(), event.getY()));
+}
+
+void spawnAnt(Point gridPosition)
+{
+/*
+   iteration++;
+   
+   Ant ant = (Ant)Game.getActor("ant").clone("ant_" + iteration);
+   
+   Game.add(ant);
+   
+   ant.setGridPosition(gridPosition);
+*/
 }

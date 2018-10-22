@@ -11,6 +11,7 @@
              <mailbox id="mailbox">
                 <message id="msgMOUSE_PRESSED"/>
                 <message id="msgMOUSE_RELEASED"/>
+                <message id="msgMOUSE_CLICKED"/>
                 <message id="msgMOUSE_DRAGGED"/>
                 <message id="msgMOUSE_WHEEL_MOVED"/>
             </mailbox>
@@ -21,11 +22,14 @@
 	      <gridDimension width="500" height="500"/>
 	   </actor>
 	   <actor id="ant" isVisible="true" class="com.toast.game.langton.Ant">
-	      <gridPosition x="10" y="10"/>
+	      <gridPosition x="50" y="50"/>
 	      <properties>
 	         <image id="imgAnt" resource="ant.png">
 	            <scale x="0.20" y="0.20"/>
 	         </image>
+	         <mailbox id="mailbox">
+                <message id="msgNEXT_STEP"/>
+            </mailbox>
 	      </properties>
 	   </actor>
 	</actors>

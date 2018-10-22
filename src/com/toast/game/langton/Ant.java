@@ -9,6 +9,7 @@ import com.toast.game.engine.Game;
 import com.toast.game.engine.actor.Actor;
 import com.toast.game.engine.message.Message;
 import com.toast.game.engine.message.Messenger;
+import com.toast.game.engine.property.Property;
 import com.toast.xml.XmlNode;
 import com.toast.xml.exception.XmlFormatException;
 
@@ -21,6 +22,8 @@ public class Ant extends Actor
       gridPosition = new Point(0, 0);
       
       direction = Direction.UP;
+      
+      Messenger.register(this);
    }
    
    public Ant(XmlNode node) throws XmlFormatException
@@ -38,12 +41,40 @@ public class Ant extends Actor
       Messenger.register(this);
    }
    
-   Point getGridPosition()
+   public Actor clone(String id)
+   {
+      Ant clone = new Ant(id);
+      
+      clone.setVisible(isVisible());
+      clone.setEnabled(isEnabled());
+      clone.setZOrder(getZOrder());
+      clone.setDimension(getDimension());
+      
+      // Clone properties.
+      for (Property property : getProperties().values())
+      {
+         clone.add(property.clone());
+      }
+      
+      Messenger.register(clone, "msgNEXT_STEP");
+      
+      return (clone);
+   }
+   
+   public void queueMessage(Message message)
+   {
+      if (message.getMessageId().equals("msgNEXT_STEP"))
+      {
+         langtonAlgorithm();
+      }
+   }
+   
+   public Point getGridPosition()
    {
       return (gridPosition);
    }
    
-   void setGridPosition(
+   public void setGridPosition(
       Point gridPosition)
    {
       this.gridPosition = gridPosition;
@@ -183,19 +214,14 @@ public class Ant extends Actor
    
    static final boolean COUNTERCLOCKWISE = false;
    
+   static int iteration = 0;
+   
    private Point gridPosition;
    
    private Direction direction;
    
    Grid grid;
    
-   public void queueMessage(Message message)
-   {
-      if (message.getMessageId().equals("nextStep"))
-      {
-         langtonAlgorithm();
-      }
-   }
-   
+  
    
 }
